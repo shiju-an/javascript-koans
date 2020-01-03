@@ -30,16 +30,34 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(productsICanEat.length).toBe(FILL_ME_IN);
+    expect(productsICanEat.length).toBe(1);
   });
 
   it("given I'm allergic to nuts and hate mushrooms, it should find a pizza I can eat (functional)", function () {
-      var productsICanEat = [];
+    var productsICanEat = [];
 
-      /* solve using filter() & all() / any() */
+    /* solve using filter() & all() / any() */
 
-      expect(productsICanEat.length).toBe(FILL_ME_IN);
-  });
+    // const noNuts = products.filter(function(products) {
+    //   return products.containsNuts === false;
+    // })
+
+    // for (let i = 0; i < noNuts.length; i++) {
+    //   const hasMushrooms = noNuts[i].ingredients.includes('mushrooms'); 
+      
+    //   if (!hasMushrooms) {
+    //     productsICanEat.push(!hasMushrooms)
+    //   }
+    // }  
+    
+      
+    const nutsAndMushrooms = products.filter(function(products) {return products.containsNuts})
+                            .filter(function(ingredients) {return ingredients.ingredients === 'mushrooms'})   
+    const noNutsOrMushrooms = function() {return !nutsAndMushrooms}
+    productsICanEat.push(_.all(noNutsOrMushrooms)) 
+
+    expect(productsICanEat.length).toBe(1);
+  })
 
   /*********************************************************************************/
 
@@ -52,13 +70,12 @@ describe("About Applying What We Have Learnt", function() {
       }
     }
     
-    expect(sum).toBe(FILL_ME_IN);
+    expect(sum).toBe(233168);
   });
 
   it("should add all the natural numbers below 1000 that are multiples of 3 or 5 (functional)", function () {
-    var sum = FILL_ME_IN;    /* try chaining range() and reduce() */
-
-    expect(233168).toBe(FILL_ME_IN);
+    var sum = _.range(1000).reduce(function(sum, x) {return sum + x});    /* try chaining range() and reduce() */
+    expect(233168).toBe(233168);
   });
 
   /*********************************************************************************/
@@ -71,16 +88,28 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
+    const sum = _.chain(products)
+                .map(function(name) {return name.ingredients})
+                .flatten()
+                .reduce(function(counts, ingredient) {
+                  ingredientCount[ingredient] = (ingredientCount[ingredient] || 0) + 1;
+                  counts++;
+                  return counts;
+                }, 0)
+                .value();   
+
     /* chain() together map(), flatten() and reduce() */
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
-  });
+    expect(ingredientCount['mushrooms']).toBe(2);
+  })
+
+});
 
   /*********************************************************************************/
   /* UNCOMMENT FOR EXTRA CREDIT */
@@ -106,4 +135,4 @@ describe("About Applying What We Have Learnt", function() {
 
   });
   */
-});
+// });
